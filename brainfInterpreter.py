@@ -1,11 +1,36 @@
 import colorama
 
-def run(program):
-    program = "".join(filter(lambda x: x in ['.', ',', '[', ']', '<', '>', '+', '-'],program)) #deal with disallowed characters
+def run(program) -> None:
+    """runs a program"""
+    program = "".join(filter(lambda x: x in ['.', ',', '[', ']', '<', '>', '+', '-'],program)) #deal with disallowed characters before running for speed improvements
     for line in _iterRunner(program):
         pass
 
-def _iterRunner(program,position=0,variables=[0],pointer=0):
+def _iterRunner(program,position=0,variables=[0],pointer=0) -> tuple:
+    """
+    Runs brainfuck code as an iterable
+    
+    Keyword arguments
+    -----------------
+    program : iterable
+        The program to run
+    position : int
+        The position to start at (default 0)
+    variables : list or other mutable iterable
+        Mutable list of variables to start the program with (default [0])
+    pointer : int
+        Pointer position to start at (default 0)
+    
+    Yield
+    ------
+    yields a tuple containing
+        position : int
+            current position
+        variables : list 
+            current variables (can be other mutable iterable it's the same one given as argument)
+        pointer : int
+            current position in variables
+    """
     variables = [0]
     while position < len(program):
         match program[position]:
@@ -58,7 +83,8 @@ def _iterRunner(program,position=0,variables=[0],pointer=0):
         yield (position,variables,pointer)
 
 
-def printMem(mem,pointer):
+def _printMem(mem,pointer):
+    """prints memory with highlighting on pointer position"""
     print("[",end="")
     for i in mem[:pointer]:
         print(f"{i}, ",end="")
@@ -73,7 +99,9 @@ def printMem(mem,pointer):
     print(mem[-1],"]")
 
 def debug(program):
-    #debug points should be marked with ! exclamation marks
+    """debug a program
+    
+    debug points should be marked with ! exclamation marks"""
     program = "".join(filter(lambda x: x in ['.', ',', '[', ']', '<', '>', '+', '-', '!'],program)) #deal with disallowed characters
     running = True
     if "!" not in program:
@@ -92,7 +120,7 @@ def debug(program):
         if line[0]>=len(program):
             return
         print("\n\nmemory: ",end="")
-        printMem(line[1],line[2])
+        _printMem(line[1],line[2])
         print(program[(line[0]-20) if line[0]>20 else 0:line[0]]+colorama.Back.YELLOW+colorama.Fore.BLACK+program[line[0]]+colorama.Style.RESET_ALL+program[line[0]+1:line[0]+20])
         command=input(": ")
         while True:
@@ -114,7 +142,6 @@ def debug(program):
         lastCommand=command
 
 if __name__ == "__main__":
-    run("++[-]++++++++++++++++++++.")
     run("++++++++[>++++[>++>+++>+++>+<<<<-]>+>+>->>+[<]<-]>>.>---.+++++++..+++.>>.<-.<.+++.------.--------.>>+.>++.")
     print()
     debug("++++++++[>++++[>++>+++<<-]>+>+[<]<-]>>.>+.")
