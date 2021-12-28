@@ -54,6 +54,8 @@ Type in n to step to the next command
 
 Or type c to jump to the next breakpoint
 
+Or type q to exit stop the program
+
 If no breakpoints are set, it will start the debugger at the beginning of the program.
 
 The debugger allowes you to view all variables. Pointer position and position in program are highlighted.
