@@ -1,4 +1,4 @@
-# python-brainfuck-with-debugger
+# python brainfuck with a debugger
 python implementation of brainfuck with a debugger
 
 ## Setup
