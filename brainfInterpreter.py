@@ -130,6 +130,8 @@ def debug(program):
                 case "c":
                     running= True
                     break
+                case "q":
+                    return
                 case "":
                     if lastCommand:
                         command = lastCommand
