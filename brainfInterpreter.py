@@ -2,10 +2,10 @@ import colorama
 
 def run(program):
     program = "".join(filter(lambda x: x in ['.', ',', '[', ']', '<', '>', '+', '-'],program)) #deal with disallowed characters
-    for line in iterRunner(program):
+    for line in _iterRunner(program):
         pass
 
-def iterRunner(program,position=0,variables=[0],pointer=0):
+def _iterRunner(program,position=0,variables=[0],pointer=0):
     variables = [0]
     while position < len(program):
         match program[position]:
@@ -80,7 +80,7 @@ def debug(program):
         running = False
         program = " "+program
     lastCommand = None
-    for line in iterRunner(program):
+    for line in _iterRunner(program):
         if running:
             if line[0]>=len(program):
                 return
